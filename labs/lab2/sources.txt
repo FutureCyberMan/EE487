@@ -1,0 +1,4 @@
+https://www.cse.sc.edu/~jokane/agitr/agitr-small-launch.pdf
+http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29
+http://wiki.ros.org/turtlesim/Tutorials/Go%20to%20Goal
+http://wiki.ros.org/turtlesim/Tutorials
