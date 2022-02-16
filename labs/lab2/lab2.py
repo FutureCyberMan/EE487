@@ -21,16 +21,8 @@ class KeyBoardSubscriber:
 		self.start = True
 class TurtleBot:
     def __init__(self):
-        # Creates a node with name 'turtlebot_controller' and make sure it is a
-        # unique node (using anonymous=True).
         rospy.init_node('turtlebot_controller', anonymous=True)
 
-        # Publisher which will publish to the topic '/turtle1/cmd_vel'.
-        self.velocity_publisher = rospy.Publisher('/turtle1/cmd_vel',
-                                                  Twist, queue_size=10)
-
-        # A subscriber to the topic '/turtle1/pose'. self.update_pose is called
-        # when a message of type Pose is received.
         self.pose_subscriber = rospy.Subscriber('/turtle1/pose',
                                                 Pose, self.update_pose)
 
@@ -46,16 +38,6 @@ class TurtleBot:
         self.pose.x = round(self.pose.x, 4)
         self.pose.y = round(self.pose.y, 4)
 
-
-    def euclidean_distance(self, goal_pose):
-        """Euclidean distance between current pose and the goal."""
-        return sqrt(pow((goal_pose.x - self.pose.x), 2) +
-                    pow((goal_pose.y - self.pose.y), 2))
-
-
-    def steering_angle(self, goal_pose):
-        """See video: https://www.youtube.com/watch?v=Qh15Nol5htM."""
-        return atan2(goal_pose.y - self.pose.y, goal_pose.x - self.pose.x)
 
     def rotate(self, angle):
     	# Setting the current time for distance calculus
@@ -86,22 +68,16 @@ class TurtleBot:
 
 
 if __name__ == '__main__':
-    try:
-	"""
-	while True:
-	    waiting = raw_input("\n")
-	    if waiting == 'p':
-		break
-	"""
-        x = TurtleBot()
-	key = KeyBoardSubscriber()
-	while not key.start:
+	try:
+		x = TurtleBot()
+		key = KeyBoardSubscriber()
+		while not key.start:
+			pass
+		x.rotate(90)
+		x.move(3.0)
+		x.rotate(225)
+		x.move(3.5)
+		x.rotate(135)
+		x.move(3.0)
+	except rospy.ROSInterruptException:
 		pass
-        x.rotate(90)
-	x.move(3.0)
-	x.rotate(225)
-	x.move(3.5)
-	x.rotate(135)
-	x.move(3.0)
-    except rospy.ROSInterruptException:
-        pass
