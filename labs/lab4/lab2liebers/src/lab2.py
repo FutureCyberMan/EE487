@@ -6,7 +6,7 @@ from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 from math import pow, atan2, sqrt
 import math
-
+"""
 class KeyBoardSubscriber:
     def __init__(self):
 	self.start = False
@@ -18,12 +18,14 @@ class KeyBoardSubscriber:
 	print(data)
 	if data == "data: \"P\"":
 		print(str(self.start))
-		self.start = True
+                self.start = True
+"""
+
 class TurtleBot:
     def __init__(self):
         rospy.init_node('turtlebot_controller', anonymous=True)
 
-        self.pose_subscriber = rospy.Subscriber('/turtle1/pose',
+        self.pose_subscriber = rospy.Subscriber('/cmd_vel',
                                                 Pose, self.update_pose)
 
         self.pose = Pose()
@@ -70,9 +72,9 @@ class TurtleBot:
 if __name__ == '__main__':
 	try:
 		x = TurtleBot()
-		key = KeyBoardSubscriber()
-		while not key.start:
-			pass
+                # key = KeyBoardSubscriber()
+		#while not key.start:
+			#pass
 		x.rotate(90)
 		x.move(3.0)
 		x.rotate(225)
