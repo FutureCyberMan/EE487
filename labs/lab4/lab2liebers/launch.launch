@@ -1,0 +1,5 @@
+<launch>
+<node pkg="lab2liebers" type="lab1.py" name="turtlebot_controller"/>
+<node pkg="lab2liebers" type="key.py" name="talker"/>
+<node pkg="turtlesim" type="turtlesim_node" name="turtlesim"/>
+</launch>
