@@ -24,7 +24,7 @@ class TurtleBot:
 
         self.vel_msg = Twist()
 
-        self.distance = 0
+        self.obstacle = False
 
     def update_pose(self, data):
         """Callback function which is called when a new message of type Pose is
@@ -34,9 +34,16 @@ class TurtleBot:
         self.pose.y = round(self.pose.y, 4)
 
     def update_scan(self, data):
-        self.distance = data.ranges[0]
-        print(self.distance)
-
+        self.checkObstacle(data.ranges[0:15])
+        self.checkObstacle(data.ranges[344:359])
+    
+    def checkObstacle(self, data):
+        for i, point in enumerate(data):
+            print(point)
+            if point > 0 and point <= .8:
+                self.obstacle = True
+                # print(point)
+                break
 
     def rotate(self, angle):
         # Setting the current time for distance calculus
@@ -55,7 +62,7 @@ class TurtleBot:
         self.velocity_publisher.publish(self.vel_msg)
     def move(self, distance):
         print("X location: {}, Y location: {}".format(self.pose.x, self.pose.y))
-        self.vel_msg.linear.x = 1.0
+        self.vel_msg.linear.x = .5
         t0 = rospy.Time.now().to_sec()
         current_location = 0
         while current_location < distance:
@@ -65,17 +72,18 @@ class TurtleBot:
         self.vel_msg.linear.x = 0
         self.velocity_publisher.publish(self.vel_msg)
     def moveLaser(self):
-        self.vel_msg.linear.x = 1.0
+        self.vel_msg.linear.x = .15
         while True:
-            self.vel_msg.linear.x = 1.0
+            self.vel_msg.linear.x = .15
             self.velocity_publisher.publish(self.vel_msg)
-            if self.distance > 0.0 and self.distance < 0.5:
+            if self.obstacle:
                 self.vel_msg.linear.x = -1.0
                 self.velocity_publisher.publish(self.vel_msg)
                 time.sleep(.5)
                 self.vel_msg.linear.x = 0.0
                 self.velocity_publisher.publish(self.vel_msg)
                 self.rotate(random.randint(10, 180))
+                self.obstacle = False
 
 if __name__ == '__main__':
         try:
