@@ -1,0 +1,3 @@
+https://stackoverflow.com/questions/57262974/tracking-yellow-color-object-with-opencv-python
+
+http://wiki.ros.org/rospy_tutorials/Tutorials/WritingImagePublisherSubscriber
